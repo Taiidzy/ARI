@@ -1,0 +1,54 @@
+body {
+    background-image: url("bg.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* Закрепляем изображение */
+    min-height: 100hv;
+}
+
+
+#mic{
+    width: 50px;
+    height: 50px;
+    display: block;
+    bottom: 115px;
+    margin-left: 19px;
+}
+
+.mic-btn-on{
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    margin-top: 225px;
+    margin-left: 125px;
+    border-radius: 50%;
+    background-color: rgba(39, 164, 76, 0.644);
+    animation: mic-btn 3s infinite ease;
+    border: none;
+}
+
+.mic-btn-off{
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    margin-top: 225px;
+    margin-left: 125px;
+    border-radius: 50%;
+    background-color: rgba(164, 39, 39, 0.644);
+    animation: mic-btn 3s infinite ease;
+    border: none;
+    display: none;
+}
+
+@keyframes mic-btn{
+    0%{
+        rotate: 0deg; transform: scale(1.05);
+    }
+    50%{
+        rotate: 180deg; transform: scale(1.1);
+    }
+    100%{
+        rotate: 360deg; transform: scale(1.05);
+    }
+}
