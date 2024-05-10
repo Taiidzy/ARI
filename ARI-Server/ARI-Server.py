@@ -2,15 +2,15 @@ from flask import Flask, request
 import serial
 import threading
 from datetime import datetime
-import os
+import subprocess
 
 app = Flask(__name__)
 
 # Подключение к Arduino через указанный COM порт
 try:
     arduino = serial.Serial('COM3', 9600, timeout=1)
-except:
-    print("Проверьте подключение Arduino")
+except serial.SerialException as e:
+    print("Ошибка подключения к Arduino:", e)
 
 # Функция для отправки данных на Arduino
 def send_to_arduino(command):
@@ -39,15 +39,13 @@ def command():
         send_to_arduino('1')  # Команда на включение реле
     elif command == 'Выключи подсветку':
         send_to_arduino('0')  # Команда на выключение реле
-    elif command == 'Открой тг':
-        os.system('"C:/Program Files/WindowsApps/TelegramMessengerLLP.TelegramDesktop_5.0.1.0_x64__t4vj0pshhgkwm/Telegram.exe"')
+    
 
     # Запись команды в файл
     with open('commands.log', 'a', encoding='utf-8') as file:
         file.write(f'{datetime.now()}: {command}\n')
 
     return 'Команда отправлена на Arduino'
-
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
