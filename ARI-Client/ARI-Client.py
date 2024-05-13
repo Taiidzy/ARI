@@ -85,10 +85,11 @@ def main():
                             break
                     
                     if not found_command:
+                        print("Поиск ПК-команд:")
                         for key, value in commands_pc.items():
                             if command.lower() in key.lower():
                                 print(f"Найдена ПК-команда: {key}")
-                                subprocess.Popen(value)  # Запустить программу на ПК
+                                subprocess.Popen([value], shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)  # Запустить программу на ПК
                                 found_command = True
                                 break
 
