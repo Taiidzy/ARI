@@ -7,6 +7,12 @@ body {
     min-height: 100hv;
 }
 
+.container {
+    display: block;
+  }
+  .hidden {
+    display: none;
+  }
 
 #mic{
     width: 50px;
@@ -51,4 +57,138 @@ body {
     100%{
         rotate: 360deg; transform: scale(1.05);
     }
+}
+
+.log {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    max-height: 100px;
+    overflow-y: auto;
+    background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный черный фон */
+    color: white; /* Белый текст */
+    /* display: none; */
+}
+
+#logText {
+    margin-top: 25px; /* Отступ сверху для текста лога */
+    margin-left: 5px; /* Отступ слева для текста лога */
+    font-size: 14px; /* Размер шрифта */
+    z-index: 0; /* Оставляем текст лога ниже надписи "Лог" */
+}
+
+.settings {
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 10px;
+}
+
+#settingsBtn {
+    background-color: #206155ae;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Стили для кнопки "Добавить команды" */
+#addCommandsBtn, #home {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    padding: 5px 10px;
+    background-color: #206155ae; /* Цвет фона кнопки */
+    color: #fff; /* Цвет текста кнопки */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 1000; /* Убедимся, что кнопка находится выше других элементов */
+}
+
+#addCommandsBtn:hover, #settingsBtn:hover, #home:hover {
+    background-color: #308f7dae; /* Цвет фона кнопки при наведении */
+}
+
+/* Стили для меню с настройками */
+.settings-menu {
+    display: none;
+    position: absolute;
+    top: 40px;
+    left: 0;
+    background-color: #333; /* Тёмный фон */
+    border: 1px solid #555; /* Цвет границы */
+    border-radius: 5px;
+    padding: 10px;
+    z-index: 1000; /* Поднимаем меню над остальными элементами */
+}
+
+.settings-menu ul {
+    list-style: none;
+    padding: 0;
+}
+
+.settings-menu ul li {
+    padding: 5px 0;
+    cursor: pointer;
+}
+
+/* Убираем стили при наведении на элемент li */
+.settings-menu ul li:hover {
+    background-color: transparent;
+    cursor: default;
+}
+
+/* Стили для переключателя */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 20px;
+    background-color: #666; /* Цвет фона переключателя */
+    border-radius: 20px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(164, 39, 39, 0.644); /* Цвет фона "ручки" */
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 20px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 2px;
+    bottom: 2px;
+    background-color: #ccc; /* Цвет "ручки" */
+    border-radius: 50%;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: rgba(39, 164, 76, 0.644); /* Цвет фона переключателя при выборе */
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(20px);
+    -ms-transform: translateX(20px);
+    transform: translateX(20px);
 }

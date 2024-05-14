@@ -18,6 +18,9 @@ eel_running = False
 
 # Переменная для отслеживания состояния микрофона
 mic_on = True
+win_commands_on = True
+web_commands_on = True
+pc_commands_on = True
 
 # Функция для запуска Eel в отдельном потоке
 def start_eel():
@@ -53,10 +56,16 @@ def send_command(command):
     except Exception as e:
         print("Ошибка при отправке команды на сервер:", e)
 
+def update_log(text):
+    eel.updateLogText(text)()  # Вызываем функцию updateLogText из JavaScript
+
 # Основной цикл программы
 def main():
     global eel_running
     global mic_on
+    global win_commands_on
+    global web_commands_on
+    global pc_commands_on
     while True:
         if mic_on:
             with microphone as source:
@@ -67,6 +76,7 @@ def main():
                 # Распознавание речи с использованием API Google
                 command = recognizer.recognize_google(audio, language='ru-RU')
                 print(f"Распознанная команда: {command}")
+                update_log(command)  # Добавляем вывод команды в интерфейс
 
                 # Проверка команды "отключить клиент"
                 if command.lower() == "отключить клиент" or command.lower() == "Отключить клиент":
@@ -76,37 +86,41 @@ def main():
                 else:
                     found_command = False
                     print("Поиск веб-команд:")
-                    for key, value in commands_web.items():
-                        print(f"Ключ: {key}")
-                        if command.lower() in key.lower():
-                            print(f"Найдена веб-команда: {key}")
-                            webbrowser.open(value)  # Открыть URL в браузере
-                            found_command = True
-                            break
-                    
-                    if not found_command:
-                        print("Поиск ПК-команд:")
-                        for key, value in commands_pc.items():
+                    if web_commands_on:  # Проверяем состояние переключателя Веб Команды
+                        for key, value in commands_web.items():
+                            print(f"Ключ: {key}")
                             if command.lower() in key.lower():
-                                print(f"Найдена ПК-команда: {key}")
-                                subprocess.Popen([value], shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)  # Запустить программу на ПК
+                                print(f"Найдена веб-команда: {key}")
+                                webbrowser.open(value)  # Открыть URL в браузере
                                 found_command = True
                                 break
 
                     if not found_command:
+                        print("Поиск ПК-команд:")
+                        if pc_commands_on:  # Проверяем состояние переключателя ПК Команды
+                            for key, value in commands_pc.items():
+                                print(f"Ключ: {key}")
+                                if command.lower() in key.lower():
+                                    print(f"Найдена ПК-команда: {key}")
+                                    subprocess.Popen([value], shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)  # Запустить программу на ПК
+                                    found_command = True
+                                    break
+
+                    if not found_command:
                         print("Поиск Windows-команд:")
-                        for key, value in windows_commands.items():
-                            print(f"Ключ: {key}")
-                            if command.lower() in key.lower():
-                                print(f"Найдена Windows-команда: {key}")
-                                if value in globals() and callable(globals()[value]):
-                                    # Проверяем, существует ли функция и вызываем её
-                                    globals()[value]()
-                                else:
-                                    print(f"Функция {value} не найдена или не является вызываемой")
-                                found_command = True
-                                break
-                            
+                        if win_commands_on:  # Проверяем состояние переключателя Win Команды
+                            for key, value in windows_commands.items():
+                                print(f"Ключ: {key}")
+                                if command.lower() in key.lower():
+                                    print(f"Найдена Windows-команда: {key}")
+                                    if value in globals() and callable(globals()[value]):
+                                        # Проверяем, существует ли функция и вызываем её
+                                        globals()[value]()
+                                    else:
+                                        print(f"Функция {value} не найдена или не является вызываемой")
+                                    found_command = True
+                                    break
+
                     if not found_command:
                         print("Команда не найдена")
 
@@ -156,6 +170,37 @@ eel_thread.start()
 def toggleMicrophone():
     global mic_on
     mic_on = not mic_on
+
+@eel.expose
+def PcComOn():
+    global pc_commands_on
+    pc_commands_on = True
+
+@eel.expose
+def PcComOff():
+    global pc_commands_on
+    pc_commands_on = False
+
+@eel.expose
+def WinComOn():
+    global win_commands_on
+    win_commands_on = True
+
+@eel.expose
+def WinComOff():
+    global win_commands_on
+    win_commands_on = False
+
+@eel.expose
+def WebComOn():
+    global web_commands_on
+    web_commands_on = True
+
+@eel.expose
+def WebComOff():
+    global web_commands_on
+    web_commands_on = False
+
 
 def end():
     os.system(R'taskkill /F /IM chrome.exe')

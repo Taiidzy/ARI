@@ -6,11 +6,47 @@
     <script src="eel.js"></script>
     <link rel="shortcut icon" type="image/x-icon" href="ARI.ico">
     <link rel="stylesheet" href="main.css">
-    <script src="script.js"></script>
     <title>Ari</title>
 </head>
 <body>
     <div class="container">
+        <div class="settings">
+            <button id="settingsBtn" onclick="toggleSettingsMenu()">Настройки</button>
+            <div id="settingsMenu" class="settings-menu">
+                <!-- Содержимое меню с настройками -->
+                <ul>
+                    <li>
+                        <span>Лог</span> <br>
+                        <label class="switch">
+                            <input type="checkbox" checked onchange="toggleLogDisplay()">
+                            <span class="slider"></span>
+                        </label>
+                    </li>
+                    <li>
+                        <span>Win Команды</span>
+                        <label class="switch">
+                            <input type="checkbox" checked onchange="WinComOn()" id="winCommandsSwitch">
+                            <span class="slider"></span>
+                        </label>
+                    </li>
+                    <li>
+                        <span>ПК Команды</span>
+                        <label class="switch">
+                            <input type="checkbox" checked onchange="PcComOn()" id="pcCommandsSwitch">
+                            <span class="slider"></span>
+                        </label>
+                    </li>
+                    <li>
+                        <span>Веб Комманды</span>
+                        <label class="switch">
+                            <input type="checkbox" checked onchange="WebComOn()" id="WebCommandsSwitch">
+                            <span class="slider"></span>
+                        </label>
+                    </li>
+                </ul>
+            </div>
+        </div>        
+        <button id="addCommandsBtn">Добавить команды</button>
         <div class="micro">
             <button class="mic-btn-on" onclick="toggleMicrophone()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-mic" id="mic" viewBox="0 0 16 16">
@@ -25,6 +61,19 @@
                 </svg>
             </button>
         </div>
+        <div class="log" id="logDiv">
+            <pre id="logText"></pre>
+        </div>               
     </div>
+    <div id="addComand" class="hidden">
+        <button id="home">Главная</button>
+        <h2>Добавить команду</h2>
+        <select name="" id="">
+            <option value="1">Пк Команда</option>
+            <option value="2">Веб Команда</option>
+            <option value="3">Вин Команда</option>
+        </select>
+    </div>
+    <script src="script.js"></script>
 </body>
 </html>
