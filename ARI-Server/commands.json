@@ -1,0 +1,20 @@
+{
+    "main_on": "1",
+    "main_off": "0",
+    "night_on": "3",
+    "night_off": "2",
+    "manual_on": "H",
+    "manual_off": "G",
+    "nightstand_light_on": "5",
+    "nightstand_light_off": "4",
+    "fan_light_on": "7",
+    "fan_light_off": "6",
+    "fan_on": "9",
+    "fan_off": "8",
+    "bed_light_on": "B",
+    "bed_light_off": "A",
+    "desk_light_on": "D",
+    "desk_light_off": "C",
+    "ball_light_on": "F",
+    "ball_light_off": "E"
+}

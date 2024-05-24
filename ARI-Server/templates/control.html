@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control Panel</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <style>
+        body {
+            padding: 20px;
+        }
+        .slider-label {
+            margin-bottom: 10px;
+        }
+        .slider {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">Панель управления</h1>
+
+        <div class="form-group">
+            <label class="slider-label">Питание</label>
+            <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" id="mainSwitch" data-command-on="main_on" data-command-off="main_off" data-relay-id="mainSwitch">
+                <label class="custom-control-label" for="mainSwitch"></label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="slider-label">Ночной режим</label>
+            <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" id="nightSwitch" data-command-on="night_on" data-command-off="night_off" data-relay-id="nightSwitch">
+                <label class="custom-control-label" for="nightSwitch"></label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="slider-label">Ручной режим</label>
+            <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" id="manualSwitch" data-command-on="manual_on" data-command-off="manual_off" data-relay-id="manualSwitch">
+                <label class="custom-control-label" for="manualSwitch"></label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="slider-label">Подсветка тумбочки</label>
+            <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" id="nightstandSwitch" data-command-on="nightstand_light_on" data-command-off="nightstand_light_off" data-relay-id="nightstandSwitch">
+                <label class="custom-control-label" for="nightstandSwitch"></label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="slider-label">Подсветка вентилятора</label>
+            <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" id="fan_lightSwitch" data-command-on="fan_light_on" data-command-off="fan_light_off" data-relay-id="fan_lightSwitch">
+                <label class="custom-control-label" for="fan_lightSwitch"></label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="slider-label">Вентилятор</label>
+            <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" id="fanSwitch" data-command-on="fan_on" data-command-off="fan_off" data-relay-id="fanSwitch">
+                <label class="custom-control-label" for="fanSwitch"></label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="slider-label">Подсветка кровати</label>
+            <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" id="bed_lightSwitch" data-command-on="bed_light_on" data-command-off="bed_light_off" data-relay-id="bed_lightSwitch">
+                <label class="custom-control-label" for="bed_lightSwitch"></label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="slider-label">Подсветка Стола</label>
+            <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" id="desk_lightSwitch" data-command-on="desk_light_on" data-command-off="desk_light_off" data-relay-id="desk_lightSwitch">
+                <label class="custom-control-label" for="desk_lightSwitch"></label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="slider-label">Подсветка шара</label>
+            <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" id="ball_lightSwitch" data-command-on="ball_light_on" data-command-off="ball_light_off" data-relay-id="ball_lightSwitch">
+                <label class="custom-control-label" for="ball_lightSwitch"></label>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('.custom-control-input').on('change', function(){
+                var commandOn = $(this).data('command-on');
+                var commandOff = $(this).data('command-off');
+                var command = $(this).prop('checked') ? commandOn : commandOff;
+                sendCommand(command);
+            });
+    
+            // Убираем часть кода, отвечающую за обновление текста
+        });
+    
+        function sendCommand(command) {
+            fetch('/command', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({command: command})
+            })
+            .then(response => response.text())
+            .then(data => console.log(data))
+            .catch(error => console.error('Ошибка:', error));
+        }
+    </script>    
+</body>
+</html>

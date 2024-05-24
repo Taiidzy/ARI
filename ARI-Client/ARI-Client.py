@@ -51,7 +51,7 @@ def send_command_async(command):
 # Функция для отправки команды на сервер
 def send_command(command):
     try:
-        response = requests.post('http://localhost:5000/command', json={'command': command})
+        response = requests.post('http://192.168.0.107:5000/command', json={'command': command})
         print(response.text)
     except Exception as e:
         print("Ошибка при отправке команды на сервер:", e)
